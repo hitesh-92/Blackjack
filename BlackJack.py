@@ -22,7 +22,7 @@ class Deck():
     def setUpDeck(self):
         for i in range(len(self.cards)):
             self.cards.pop()
-        for s i self.sym:
+        for i self.sym:
             for v in vals:
                 res = "{x} {y}".format(x = s, y = v)
                 self.cards.append(res)
