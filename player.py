@@ -4,15 +4,25 @@ class Player():
     """
     def __init__(self):
         self.name = ''
-        self.bankBalance = 0
-        self. amountBet = 0
+        self.bankBalance = 1000
+        self.amountBet = 0
         self.cardsHolding = []
         self.holdingValue = 0
 
-    def initName(self, playerName):
+    def newPlayer(self):
+        playerName = input('Enter your name: ')
         self.name = playerName
+        print(f'Hello {self.name}. Your balance is {self.bankBalance}.')
 
-p = Player()
-x = input('Your name? ')
-p.initName(x)
-print(p.name)
+    def newBet(self):
+        toBet = input('Place your bets! Enter amount: ')
+        self.amountBet = toBet
+
+    def showCards(self):
+        print(self.cardsHolding)
+
+    def cardsValue(self):
+        print(self.holdingValue)
+
+# p = Player()
+# p.newPlayer()

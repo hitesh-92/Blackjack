@@ -1,6 +1,13 @@
 from deck import Deck
+from player import Player
 
-deck = Deck()
-deck.newDeck()
+# deck = Deck()
+# deck.newDeck()
+# p = Player()
+# p.newPlayer()
 
-print(deck.currentCards)
+
+play = True
+
+while True:
+    if play == True:
