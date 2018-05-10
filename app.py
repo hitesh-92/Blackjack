@@ -22,7 +22,7 @@ def startBlackJack():
     deck.newDeck()
     player.newPlayer()
 
-    playGame(player, dealer, deck)
+    res = playGame(player, dealer, deck)
 
 
 
@@ -50,6 +50,16 @@ def playGame(p, d, de):
     card4 = deck.pickCard()
     dealer.addCard(card4[0],card4[1])
 
+    if player.holdingValue == 21 and dealer.holdingValue == 21:
+        print('PUSH\nBoth players hit BlackJack!')
+    elif player.holdingValue == 21:
+        print('Player has won! BlackJack!!')
+        return True
+    elif dealer.holdingValue == 21:
+        print('The House has won! Better luck next time!!')
+        return True
+
+
     while True:
         player.showCards()
         dealer.showCards()
@@ -66,7 +76,7 @@ def playGame(p, d, de):
             dCard = deck.pickCard()
             dealer.addCard(dCard[0],dCard[1])
 
-        print('\nCards Delt\n')
+        # print('\nCards Delt\n')
 
         # check holdingValues for player/dealer. bust/win/push
         # result = bustCheck(player.holdingValue, dealer.holdingValue)
