@@ -68,7 +68,8 @@ def playGame(p, d, de):
 
         print('\nCards Delt\n')
 
-        result = bustCheck(player.holdingValue, dealer.holdingValue)
+        # check holdingValues for player/dealer. bust/win/push
+        # result = bustCheck(player.holdingValue, dealer.holdingValue)
 
 
 
@@ -76,19 +77,7 @@ def playGame(p, d, de):
         #check .move both False. if both false break
 
 
-    # print('player')
-    # print(player.cardsHolding)
-    # print(player.holdingValue)
-    # print('dealer')
-    # print(dealer.cardsHolding)
-    # print(dealer.holdingValue)
-    # print(dealer.move)
 
-# def show(p, d):
-#     print('Player:')
-#     print(f"{p.name}\n{p.bankBalance}\n{p.amountBet}\n{p.cardsHolding}\n{p.holdingValue}\n")
-#     print('Dealer')
-#     print(f"")
 
 
 def winCheck(p1,d):
