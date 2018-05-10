@@ -66,7 +66,15 @@ class Player():
         """
         Display the cards held by the player
         """
-        print(self.cardsHolding)
+        display = '\nPlayer Cards: | '
+        for i in self.cardsHolding:
+            display += i
+            display += ' | '
+        if len(display) <= 15:
+            display = 'Not holding any cards. Error'
+
+        print(display)
+
 
     def cardsValue(self):
         """

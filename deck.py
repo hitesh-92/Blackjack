@@ -29,11 +29,11 @@ class Deck():
                 self.currentCards.append(f"{suit} {value}")
 
 
-    def cardCount(self):
-        """
-        Returns amount of cards currently in deck
-        """
-        return len(self.currentCards)
+    # def cardCount(self):
+    #     """
+    #     Returns amount of cards currently in deck
+    #     """
+    #     return len(self.currentCards)
 
 
     def pickCard(self):

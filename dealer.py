@@ -27,3 +27,16 @@ class Dealer():
 
         if self.holdingValue >= 17:
             self.move = False
+
+    def showCards(self):
+        """
+        Display the cards held by the dealer
+        """
+        display = 'Dealer Cards: | '
+        for i in self.cardsHolding:
+            display += i
+            display += ' | '
+        if len(display) <= 15:
+            display = 'Not holding any cards. Error'
+
+        print(display)
