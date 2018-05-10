@@ -44,29 +44,42 @@ class Deck():
         nCards = len(self.currentCards)-1
         nPick = randint(0,nCards)
         card = self.currentCards[nPick]
-        print(card)
-        return self.currentCards.pop(nPick)
+        # print(card)
 
+        cardVal = None
 
-    def cardValue(self,card):
-        """
-        Find the value of the card and return and int.
-        Exception: 'Ace'. This has vlaue of 1 or 11 depending on holders cards.
-        'Ace' will return bool(True). Deal with accordingly
-        """
         value = card[2::]
-        # print(type(value))
-        # print(len(value))
-
         if len(value) == 3:
-            # print('Ace')
-            return True
+            cardVal = True
         elif len(value) == 1:
-            # print(int(value))
-            return int(value)
+            cardVal = int(value)
         else:
-            # print(10)
-            return 10
+            cardVal = 10
+
+        card = self.currentCards.pop(nPick)
+
+        return (card, cardVal)
+
+
+    # def cardValue(self,card):
+    #     """
+    #     Find the value of the card and return and int.
+    #     Exception: 'Ace'. This has vlaue of 1 or 11 depending on holders cards.
+    #     'Ace' will return bool(True). Deal with accordingly
+    #     """
+    #     value = card[2::]
+    #     # print(type(value))
+    #     # print(len(value))
+    #
+    #     if len(value) == 3:
+    #         # print('Ace')
+    #         return True
+    #     elif len(value) == 1:
+    #         # print(int(value))
+    #         return int(value)
+    #     else:
+    #         # print(10)
+    #         return 10
 
 
 # deck = Deck()
