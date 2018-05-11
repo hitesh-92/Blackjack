@@ -46,7 +46,7 @@ class Player():
                 else:
                     continue
         completeBet()
-        print(f"You have bet: {self.amountBet}. Your balace is: {self.bankBalance}")
+        print(f"You have bet: {self.amountBet}. Your balace is: {self.bankBalance}\n")
 
 
     def showCards(self):
@@ -57,7 +57,7 @@ class Player():
         for i in self.cardsHolding:
             cards = cards + " |" + i + "| "
         print(f"{self.name} cards: {cards}")
-        
+
 
     def cardsValue(self):
         """
@@ -72,7 +72,7 @@ class Player():
         """
         if value == True:
             with11 = self.holdingValue + 11
-            if with11 > 21:
+            if with11 >= 21:
                 self.holdingValue += 1
             else:
                 self.holdingValue += 11
@@ -86,9 +86,24 @@ class Player():
         Ask player if they want to "hit" if true draw card else stand
         Return True or False depending on input
         """
-        play = input("Do you want another card? ")
+        # print(f"Balance: {self.bankBalance}")
+        play = input("\nWould you like another card? (y/n) ")
         if play == 'y':
             return True
         else:
             self.move = False
             return False
+
+    def push(self):
+        """
+        Game resulted in PUSH. Give the player thier money back
+        """
+        self.bankBalance += self.amountBet
+
+    def win(self):
+        """
+        Game resulted with player winning
+        """
+        # winnings = self.amountBet*2
+        # self.bankBalance += winings
+        self.bankBalance += (self.amountBet*2)

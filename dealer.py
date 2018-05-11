@@ -32,11 +32,7 @@ class Dealer():
         """
         Display the cards held by the dealer
         """
-        display = 'Dealer Cards: | '
+        cards = ''
         for i in self.cardsHolding:
-            display += i
-            display += ' | '
-        if len(display) <= 15:
-            display = 'Not holding any cards. Error'
-
-        print(display)
+            cards = cards + " |" + i + "| "
+        print(f"{self.name} cards: {cards}")
