@@ -2,12 +2,6 @@ from deck import Deck
 from player import Player
 from dealer import Dealer
 
-# #Place end of code at end
-# play = True
-# while True:
-#     if play == True:
-#         startBlackJack()
-
 
 def startBlackJack():
     """
@@ -25,10 +19,12 @@ def startBlackJack():
     res = playGame(player, dealer, deck)
 
 
-
-
 def playGame(p, d, de):
     """
+    Main game functionality.
+    Each player draws 2 cards
+    If blackjack 1 wins or push
+    Else continue game and play until bust or play stops
     p = player. d = dealer. de = deck
     """
     player = p
@@ -76,6 +72,10 @@ def playGame(p, d, de):
             dCard = deck.pickCard()
             dealer.addCard(dCard[0],dCard[1])
 
+        if player.move == False and dealer.move == False:
+            #wincheck
+            break
+
         # print('\nCards Delt\n')
 
         # check holdingValues for player/dealer. bust/win/push
@@ -87,12 +87,17 @@ def playGame(p, d, de):
         #check .move both False. if both false break
 
 
+# play = True
+# while True:
+#     if play == True:
+#         go = startBlackJack()
+#         if go == True:
+#             continue
+#         else:
+#             play == False
+#             break
 
 
 
-def winCheck(p1,d):
-    if p1 > 21:
-        return
 
-
-startBlackJack()
+# startBlackJack()
