@@ -46,6 +46,7 @@ def playGame(p, d, de):
     card4 = deck.pickCard()
     dealer.addCard(card4[0],card4[1])
 
+
     if player.holdingValue == 21 and dealer.holdingValue == 21:
         print('PUSH\nBoth players hit BlackJack!')
     elif player.holdingValue == 21:

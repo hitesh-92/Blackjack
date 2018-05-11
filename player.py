@@ -11,13 +11,15 @@ class Player():
         self.holdingValue = 0
         self.move = True
 
+
     def newPlayer(self):
         """
         On creating new user. Ask for name and inform of inital balance
         """
-        playerName = input('Enter your name: ')
+        playerName = input('\nWelcome, please enter your name: ')
         self.name = playerName
-        print(f'Hello {self.name}. Your balance is {self.bankBalance}.')
+        print(f'\nHello {self.name}. Your balance is {self.bankBalance}.')
+
 
     def newBet(self):
         """
@@ -32,7 +34,7 @@ class Player():
             self.amountBet = toBet
             self.bankBalance -= toBet
 
-        toBet = int(input('Place your bets! \nEnter amount: '))
+        toBet = int(input('\nPlace your bet. Enter amount: '))
 
         if toBet > self.bankBalance:
             while True:
@@ -44,37 +46,18 @@ class Player():
                 else:
                     continue
         completeBet()
+        print(f"You have bet: {self.amountBet}. Your balace is: {self.bankBalance}")
 
-    def winBet(self):
-        """
-        Amend bank balace if player wins
-        """
-        self.bankBalance += (self.amountBet*2)
-
-    def lostBet(self):
-        """
-        Amend bank balace if player BUST or dealer beats player
-        """
-        self.bankBalance -= self.amountBet
-
-    def pushBet(self):
-        """
-        If both players draw wtih equal card values, push bet. The amount they have is given back.
-        """
 
     def showCards(self):
         """
         Display the cards held by the player
         """
-        display = '\nPlayer Cards: | '
+        cards = ''
         for i in self.cardsHolding:
-            display += i
-            display += ' | '
-        if len(display) <= 15:
-            display = 'Not holding any cards. Error'
-
-        print(display)
-
+            cards = cards + " |" + i + "| "
+        print(f"{self.name} cards: {cards}")
+        
 
     def cardsValue(self):
         """
@@ -96,6 +79,7 @@ class Player():
 
         self.holdingValue += value
         self.cardsHolding.append(card)
+
 
     def toPlay(self):
         """
