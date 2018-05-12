@@ -68,7 +68,8 @@ def game(players):
                 user.addCard(card[0], card[1])
                 print(f"\n{user.name} drew card: {card[0]}")
                 check = user.cardCount()
-                print(f"{user.cards} || {user.name} CHECK: {check}")
+                #debug
+                # print(f"{user.cards} || {user.name} CHECK: {check}")
                 if check > 21:
                     user.move = False
                     user.bust = 'BUST'
@@ -99,7 +100,8 @@ def game(players):
 
     #compare player(s) to dealer
     dRes = dealer.cardCount()
-    
+    print(f"\nDEALER cards: {dRes}")
+
     for player in range(0,nPlayers):
         user = None
         if player == 0:
@@ -108,12 +110,17 @@ def game(players):
             user = players[1]
 
         each = user.cardCount()
+        print(f"{user.name} cards: {each}")
 
-        if each == dRes:
+        if each > 21:
+            results.append(False)
+            break
+        elif each == dRes:
             results.append(None)
         else:
             res = each > dRes
             results.append(res)
+        user.reset()
 
     #remove cards
 
