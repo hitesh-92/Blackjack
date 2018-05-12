@@ -6,8 +6,6 @@ class Deck():
     """
     Deck of cards, containing 52 cards with 4 suits containing 2-A
     """
-
-
     def __init__(self):
         self.currentCards = []
 
@@ -29,13 +27,6 @@ class Deck():
                 self.currentCards.append(f"{suit} {value}")
 
 
-    # def cardCount(self):
-    #     """
-    #     Returns amount of cards currently in deck
-    #     """
-    #     return len(self.currentCards)
-
-
     def pickCard(self):
         """
         Picks a random number, depending on the amount of cards.
@@ -44,8 +35,6 @@ class Deck():
         nCards = len(self.currentCards)-1
         nPick = randint(0,nCards)
         card = self.currentCards[nPick]
-        # print(card)
-
         cardVal = None
 
         value = card[2::]
@@ -57,29 +46,8 @@ class Deck():
             cardVal = 10
 
         card = self.currentCards.pop(nPick)
-
         return (card, cardVal)
 
-
-    # def cardValue(self,card):
-    #     """
-    #     Find the value of the card and return and int.
-    #     Exception: 'Ace'. This has vlaue of 1 or 11 depending on holders cards.
-    #     'Ace' will return bool(True). Deal with accordingly
-    #     """
-    #     value = card[2::]
-    #     # print(type(value))
-    #     # print(len(value))
-    #
-    #     if len(value) == 3:
-    #         # print('Ace')
-    #         return True
-    #     elif len(value) == 1:
-    #         # print(int(value))
-    #         return int(value)
-    #     else:
-    #         # print(10)
-    #         return 10
 
 
 # deck = Deck()
