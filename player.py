@@ -1,133 +1,122 @@
 class Player():
     """
-    Player Class. Holds bankBalance, amountBet, cards held and value of cards
-    move - if False = stand else hit
+    Class new player.
+    Name, balance, bet, cards
     """
-    def __init__(self):
-        self.name = ''
-        self.bankBalance = 1000
-        self.amountBet = 0
+
+    def __init__(self, playerName):
+        self.name = playerName
+        self.balance = 1000
+        self.bet = 0
         self.cards = []
-        self.holdingValue = []
+        self.values = []
+        self.bust = ''
         self.move = True
         self.playing = True
+
+    def pReset(self):
+        """
+        Reset for another round
+        """
+        self.bet = 0
+        self.cards = []
+        self.values = []
         self.bust = ''
+        self.move = True
 
 
-    def newName(self, playerName):
+    def placeBet(self):
         """
-        On creating new user. Ask for name and inform of inital balance
+        Player decideds bet amount,
+        cannot exceed balance
         """
-        self.name = playerName
 
+        print(f"\nCurrent balance: {self.balance}")
+        amount = int(input(f"{self.name} please enter amount to bet: "))
 
-
-    def newBet(self):
-        """
-        Prompt player to place new bet.
-        Amount should not exceed bankBalance.
-        If exceeded, state balance and prompt again
-        """
-        def completeBet(toBet):
-            """
-            Run when a bet is successfully made
-            """
-            self.amountBet = toBet
-            self.bankBalance -= toBet
-
-        toBet = int(input(f"\n{self.name}'s balance: {self.bankBalance}\n{self.name} place your bet. Enter amount: "))
-
-        if toBet > self.bankBalance:
+        if amount > self.balance or amount == 0:
             while True:
-                print(f"Your current balance: {self.bankBalance}")
-                toBet = int(input('Place bet (ensure amount does not exceed balance): '))
-                if toBet <= self.bankBalance:
-                    completeBet(toBet)
+                print(f"\nPlease enter amount up to or including {self.balance}: ")
+                amount = int(input(f"{self.name} please enter amount to bet bet: "))
+                if amount <= self.balance and amount > 0:
                     break
                 else:
                     continue
-        completeBet(toBet)
-        print(f"You have bet: {self.amountBet}. Your balace is: {self.bankBalance}\n")
+        self.bet = amount
+        self.balance -= amount
+        print(f"You have bet: {self.bet}. Your balace is: {self.balance}\n")
 
 
-    def showCards(self):
-        """
-        Display the cards held by the player
-        """
-        cards = ''
-        for i in self.cards:
-            cards = cards + " |" + i + "| "
-        print(f"{self.name} cards: {cards}     {self.bust}")
 
-
-    def addCard(self, card, value):
+    def addCard(self,card, value):
         """
-        # Add card to current holding and adjust holdingValue
-        # If value==True card is ace. add 1 or 11 depending on count
-        Add cards/cardValue to player
+        Appends card param to cards
         """
-        self.holdingValue.append(value)
         self.cards.append(card)
+        self.values.append(value)
 
 
-    def cardCount(self):
+    def countCards(self):
         """
-        Count the value of cards currently in handself
-        Adjust for ace(True)
+        Return values total
+        Adjust if ace(True)
+        if value >21: return None == BUST
         """
         ace = 0
         res = 0
-        for i in self.holdingValue:
+
+        for i in self.values:
             if i == True:
                 ace += 1
             else:
                 res += i
+
         if ace > 0:
             for i in range(0,ace):
-                ace = res + 11
-                if ace <= 21:
+                a = res + 11
+                if a <= 21:
                     res += 11
                 else:
                     res += 1
-
+        
         return res
 
-    def bust(self):
+
+    def displayCards(self):
         """
-        add 'bust' to self.bust
+        Dispay the cards held by player
         """
-        # print(f"{self.name} BUST!")
-        self.bust += 'BUST'
+        cards = ''
+        for i in self.cards:
+            cards = cards + "  |" + i + "| "
+        print(f"{self.name} holding: {cards}     {self.bust}")
 
 
-    def draw(self):
+    def cardAsk(self):
         """
-        Ask player if they want to "hit" if true draw card else stand
-        Return True or False depending on input
+        Ask player if they want additional card
         """
-        # print(f"Balance: {self.bankBalance}")
-        play = input(f"\n{self.name}\nFor hit (enter 'y') or Stand (enter 'n'): ")
-        if play == 'y':
+        ask = input(f"\n{self.name}, HIT (y) or STAND (n):  ")
+        if ask == 'y':
             return True
         else:
-            self.move = False
             return False
 
-    def push(self):
-        """
-        Game resulted in PUSH. Give the player thier money back
-        """
-        self.bankBalance += self.amountBet
 
-    def win(self):
-        """
-        Game resulted with player winning
-        """
-        self.bankBalance += (self.amountBet*2)
+    def playerBust(self):
+        self.bust = 'BUST'
 
-    def reset(self):
-        """
-        If round complete, reset cards to not hold and reset holdingValue
-        """
-        self.cardsHolding = []
-        self.holdingValue = 0
+
+    def playerPush(self):
+        self.balance += self.bet
+        print(f"\n{self.name} PUSH | Balance: {self.balance}")
+
+    def playerWon(self):
+        self.balance += self.bet*2
+        print(f"\n{self.name} WON | Balance: {self.balance}")
+
+    def playerLost(self):
+        print(f"\n{self.name} LOST | Balance: {self.balance}")
+        if self.balance == 0:
+            self.playing = False
+

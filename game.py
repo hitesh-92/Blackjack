@@ -1,127 +1,122 @@
 from deck import Deck
 from player import Player
 from dealer import Dealer
-from display_cards import displayCards
+from check import check
 
 def game(players):
-    """
-    Start drawing cards.
-    Initial draw, 2 each.
-    Ask to draw more, if bust add to results list to return
-    """
+	"""
+	Takes 1 param, should be list of players
+	Set up deck
+	Set up dealer
+	Draw 2 cards each,
+	if 21 skip player hit/stand
+	if on draw cards==21 end turn
+	after players done, deal dealer
+	compare cards and end and return to init.py 
+	"""
 
-    results = []
-
-    nPlayers = len(players)
-
-    # player1 = players[0]
-    # if len(players) > 1:
-    #     player2 = players[1]
-
-
-    deck = Deck()
-    deck.newDeck()
-    dealer = Dealer()
-
-    #Draw 2 cards each
-    for player in range(0,nPlayers+1):
-        user = None
-
-        if player == 0:
-            user = dealer
-        elif player == 1:
-            user = players[0]
-        elif player == 2:
-            user = players[1]
-
-        for card in range(0,2):
-            card = deck.pickCard()
-            user.addCard(card[0], card[1])
-
-        count = user.cardCount()
-
-        if player == 0:
-            if count >= 17:
-                user.move = False
-
-        if count == 21:
-            user.move = False
-            print(f"\n*** {user.name} BlackJack! ***")
+	def display(players,dealer):
+		"""
+		Dispay all players cards
+		"""
+		players[0].displayCards()
+		if len(players)>1:
+			players[1].displayCards()
+		dealer.displayCards()
 
 
+	#set up deck and dealer
+	deck = Deck()
+	dealer = Dealer()
+	deck.newDeck()
 
-    displayCards(players, dealer)
+	#init cardPick. pick 2 each
+	nPlayers = len(players)
 
-    #select additonal cards for players
-    for player in range(0,nPlayers):
-        user = None
+	for i in range(0,nPlayers):
+		cards = deck.pickCard(True)
+		players[i].addCard(cards[0][0],cards[0][1])
+		players[i].addCard(cards[1][0],cards[1][1])
 
-        if player == 0:
-            user = players[0]
-        elif player == 1:
-            user = players[1]
+		initCheck = players[i].countCards()
 
-        while user.move == True:
-            res = user.draw()
-            if res == True:
-                card = deck.pickCard()
-                user.addCard(card[0], card[1])
-                print(f"\n{user.name} drew card: {card[0]}")
-                check = user.cardCount()
-                #debug
-                # print(f"{user.cards} || {user.name} CHECK: {check}")
-                if check > 21:
-                    user.move = False
-                    user.bust = 'BUST'
-                    print(f"\n{user.name} BUST!")
-                    break
-                displayCards(players,dealer)
-                continue
-            else:
-                user.move = False
-                displayCards(players,dealer)
-                break
+		if initCheck == 21:
+			name = players[i].name
+			print(f"*** {name} hit BlackJack! ***")
+			players[i].move = False
 
-    #dealer picks cards
-    while dealer.move == True:
-        card = deck.pickCard()
-        dealer.addCard(card[0], card[1])
-        dCheck = dealer.cardCount()
-        print("\n")
-        if dCheck == 21:
-            dealer.move = False
-            break
-        elif dCheck > 21:
-            dealer.move = False
-            print(f"\n{user.name} BUST!")
-            break
-        displayCards(players,dealer)
-        continue
+	#dealers pick
+	dCards = deck.pickCard(True)
+	dealer.addCard(dCards[0][0],dCards[0][1])
+	dealer.addCard(dCards[1][0],dCards[1][1])
 
-    #compare player(s) to dealer
-    dRes = dealer.cardCount()
-    print(f"\nDEALER cards: {dRes}")
+	dMove = dealer.countCards()
+	if dMove >= 17:
+		dealer.move = False
 
-    for player in range(0,nPlayers):
-        user = None
-        if player == 0:
-            user = players[0]
-        elif player == 1:
-            user = players[1]
 
-        each = user.cardCount()
-        print(f"{user.name} cards: {each}")
+	display(players,dealer)
 
-        if each > 21:
-            results.append(False)
-            break
-        elif each == dRes:
-            results.append(None)
-        else:
-            res = each > dRes
-            results.append(res)
-        user.reset()
+	#ask players for addtional cards
+	for i in range(0,nPlayers):
+		if players[i].move == True:
 
-    #remove cards
+			while True:
+				ask = players[i].cardAsk()
+				if ask == True:
+					card = deck.pickCard(False)
+					players[i].addCard(card[0][0],card[0][1])
 
-    return results
+					check1 = players[i].countCards()
+					if check1 > 21:
+						players[i].move = False
+						players[i].playerBust()
+						display(players,dealer)
+						break
+					elif check1 == 21:
+						players[i].move = False
+						display(players,dealer)
+						break
+				else:
+					players[i].move = False
+					break
+				display(players,dealer)
+				continue
+
+	bothBust = 0
+	for i in range(0, nPlayers):
+		if players[i].bust == 'BUST':
+			bothBust += 1
+
+	#pick card for dealer until >= 17
+	if bothBust < 1:
+		if dealer.move == True:
+			while True:
+
+				card = deck.pickCard(False)
+				dealer.addCard(card[0][0],card[0][1])
+
+				dCheck = dealer.countCards()
+
+				if dCheck > 21:
+					dealer.dealerBust()
+					dealer.move = False
+					break
+				elif dCheck == 21:
+					break
+				elif dCheck >= 17:
+					break
+
+	display(players,dealer)
+
+
+	#check results
+	results = check(players,dealer)
+	# print('\nRESULTS:')
+	# print(results)
+
+	return results
+
+
+
+

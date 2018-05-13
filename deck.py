@@ -1,67 +1,73 @@
 from random import randint
 # print(randint(0,9))
 
-
 class Deck():
-    """
-    Deck of cards, containing 52 cards with 4 suits containing 2-A
-    """
-    def __init__(self):
-        self.currentCards = []
+	"""
+	Deck the game uses
+	Should contain 52 cards
+	"""
+
+	def __init__(self):
+		self.cards = []
 
 
-    def newDeck(self):
-        """
-        Set up new deck of cards with all 52 cards. Appends to currentCards
-        """
-        suits = ['H','D','S','C']
-        values = [2,3,4,5,6,7,8,9,10,'Jack','Queen','King','Ace']
+	def newDeck(self):
+		suits = ['H','D','S','C']
+		values = [2,3,4,5,6,7,8,9,10,'Jack','Queen','King','Ace']
 
-        for suit in suits:
-            #Prints 4 suits letters
-            # print(suit)
-
-            for value in values:
-                #Prints all values with each suit
-                # print(f"{suit} {value}")
-                self.currentCards.append(f"{suit} {value}")
+		for suit in suits:
+			for value in values:
+				self.cards.append(f"{suit} {value}")
 
 
-    def pickCard(self):
-        """
-        Picks a random number, depending on the amount of cards.
-        Pops card from the list of currentCards and returns the card values
-        """
-        nCards = len(self.currentCards)-1
-        nPick = randint(0,nCards)
-        card = self.currentCards[nPick]
-        cardVal = None
+	def pickCard(self, init):
+		"""
+		Pick randint from len(cards)
+		Select card and pop
+		init = initial pick (2cards)
+		if init==True: pick2 cards else 1
+		"""
+		if init == True:
+			count = 2
+		else:
+			count = 1
 
-        value = card[2::]
-        if len(value) == 3:
-            cardVal = True
-        elif len(value) == 1:
-            cardVal = int(value)
-        else:
-            cardVal = 10
+		res = []
 
-        card = self.currentCards.pop(nPick)
-        return (card, cardVal)
+		while True:
+			nCards = len(self.cards)-1
+			nPick = randint(0,nCards)
+			card = self.cards[nPick]
+			cardVal = None
+
+			value = card[2::]
+			if len(value) == 3:
+				cardVal = True
+			elif len(value) == 1:
+				cardVal = int(value)
+			else:
+				cardVal = 10
+
+			card = self.cards.pop(nPick)
+
+			each = [card, cardVal]
+			res.append(each)
+
+			count -= 1
+			if count == 0:
+				break
+		
+		if init == False:
+			c = (res[0][0])
+			print(f"\nPicked card: {c}")
+
+		return res
 
 
+	
 
-# deck = Deck()
-# deck.newDeck()
 
-#Prints cards currently in deck
-# print(deck.currentCards)
-
-#Print amount of cards currently in deck
-# print(deck.cardCount())
-
-#Pick a random card
-# deck.pickCard()
-
-#Find value of card
-# x = deck.pickCard()
-# deck.cardValue(x)
+# x = Deck()
+# x.newDeck()
+# c=x.pickCard(True)
+# print(c)
